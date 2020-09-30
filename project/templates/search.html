@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="jumbotron" align="center">
+        <h1>Enter text of the title to search</h1>
+        <hr class="my-4">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{form.hidden_tag()}}
+            <div class="form-group">
+                {{form.text.label()}}
+                {{form.text(class="form-control")}}
+            </div>
+            <div class="form-group">
+                {{form.submit(class="btn btn-primary")}}
+            </div>
+          </form>
+    </div>
+    {% if results is not none %}
+    <div class="jumbotron">
+        <h1>Here are the search results:</h1>
+        <hr class="my-4">
+
+        {% for title in results['title'].values[:20] %}
+          <p>{{title}}</p>
+        {% endfor %}
+        
+        {% if results|length > 20 %}
+        <hr class="my-4">
+        <p>There are more than 20 results for the given text. Please provide more elaborate text to search</p>
+        {% endif %}
+
+    </div>
+    {% endif %}
+{% endblock %}
