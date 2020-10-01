@@ -48,6 +48,5 @@ def book(book_id_new):
     if book_id_new > M - 1:
         return render_template('book_page.html', title='Invalid Book ID!')
 
-    title = df.loc[df['book_id_new'] == book_id_new]['title'].values[0]
-    goodreads_id = df.loc[df['book_id_new'] == book_id_new]['best_book_id'].values[0]
-    return render_template('book_page.html', title=title, goodreads_id=goodreads_id)
+    book = df.loc[df['book_id_new'] == book_id_new]
+    return render_template('book_page.html', book=book)
