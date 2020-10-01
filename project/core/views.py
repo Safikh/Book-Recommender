@@ -27,7 +27,13 @@ def search():
     form = SearchForm()
 
     if form.validate_on_submit():
-        results = df[df['title'].str.contains(form.text.data, case=False)]
-        return render_template('search.html', form=form, results=results)
+        return redirect(url_for('core.search_results', text=form.text.data))
 
-    return render_template('search.html', form=form, results=None)
+    return render_template('search.html', form=form)
+
+
+@core.route('/search_results?<text>')
+def search_results(text):
+
+    results = df[df['title'].str.contains(text, case=False)]
+    return render_template('search_results.html', results=results)

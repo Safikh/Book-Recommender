@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+{% if results is not none %}
+<div class="jumbotron">
+
+    {% if results|length > 0 %}
+      <h1>Here are the search results:</h1>
+      <hr class="my-4">
+
+      {% for title in results['title'].values[:20] %}
+        <p>{{title}}</p>
+      {% endfor %}
+
+      {% if results|length > 20 %}
+        <hr class="my-4">
+        <p>There are more than 20 results for the given text. Please provide more elaborate text to search</p>
+      {% endif %}
+
+    {% else %}
+          <p>Uh-Oh! No results found.</p>
+    {% endif %}
+
+</div>
+{% endif %}
+{% endblock %}
