@@ -35,7 +35,7 @@ def search():
     return render_template('search.html', form=form)
 
 
-@core.route('/search_results?<text>')
+@core.route('/search_results/<text>')
 def search_results(text):
 
 
@@ -72,12 +72,11 @@ def user_ratings():
 @core.route('/recommendations')
 def recommendations():
 
-    if (df['given_rating'] != 0).sum() < 10:
+    if (df['given_rating'] != 0).sum() < 5:
         return redirect(url_for('core.user_ratings'))
 
     preds = predict(df['given_rating'].values.reshape(1, M)).reshape(-1, 1)
-
     df['predicted_rating'] = [np.round(pred, 2) for pred in preds]
-    print(preds.max(), preds.min(), preds.mean())
-    recc_books = df[df['given_rating'] == 0].sort_values(by='predicted_rating', ascending=False)[:10]
+    recc_books = df[(df['given_rating'] == 0) & (df['predicted_rating'] > 3)].sample(n=10)
+
     return render_template('recommendations.html', recc_books=recc_books)
