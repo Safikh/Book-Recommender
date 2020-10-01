@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, redirect, url_for
 from project.core.forms import SearchForm
 import pandas as pd
+import numpy as np
 import os
 
 curr_dir = os.path.abspath(os.path.dirname(__file__))
@@ -8,6 +9,7 @@ df_path = os.path.join(curr_dir, 'data/processed_books.csv')
 df = pd.read_csv(df_path)
 #print(df.head)
 M = df['book_id_new'].nunique()
+df['given_rating'] = np.zeros(M)
 
 core = Blueprint('core', __name__)
 
@@ -35,5 +37,16 @@ def search():
 @core.route('/search_results?<text>')
 def search_results(text):
 
+
     results = df[df['title'].str.contains(text, case=False)]
     return render_template('search_results.html', results=results)
+
+
+@core.route('/book/<int:book_id_new>')
+def book(book_id_new):
+
+    if book_id_new > M - 1:
+        return render_template('book_page.html', title='Invalid Book ID!')
+        
+    title = df.loc[df['book_id_new'] == book_id_new]['title'].values[0]
+    return render_template('book_page.html', title=title)

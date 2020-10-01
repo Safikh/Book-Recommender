@@ -3,7 +3,7 @@
     <div class="jumbotron" align="center">
         <h1>Enter text of the title to search</h1>
         <hr class="my-4">
-        <form method="POST" action="" enctype="multipart/form-data">
+        <form method="POST">
             {{form.hidden_tag()}}
             <div class="form-group">
                 {{form.text.label()}}
@@ -14,5 +14,5 @@
             </div>
           </form>
     </div>
-    
+
 {% endblock %}
