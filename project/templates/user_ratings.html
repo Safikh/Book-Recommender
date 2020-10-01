@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="jumbotron" align="center">
+        <h1 class="display-4">{{book['title'].values[0]}}</h1>
+        <h1>Given Rating: {{book['given_rating'].values[0]}}</h1>
+    </div>
+
+{% endblock %}

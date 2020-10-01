@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, redirect, url_for
-from project.core.forms import SearchForm
+from project.core.forms import SearchForm, RatingForm
 import pandas as pd
 import numpy as np
 import os
@@ -42,11 +42,20 @@ def search_results(text):
     return render_template('search_results.html', results=results)
 
 
-@core.route('/book/<int:book_id_new>')
+@core.route('/book/<int:book_id_new>', methods=['GET', 'POST'])
 def book(book_id_new):
 
-    if book_id_new > M - 1:
-        return render_template('book_page.html', title='Invalid Book ID!')
+    if book_id_new < M:
+        #return render_template('book_page.html', title='Invalid Book ID!')
 
-    book = df.loc[df['book_id_new'] == book_id_new]
-    return render_template('book_page.html', book=book)
+        book = df.loc[df['book_id_new'] == book_id_new]
+        form = RatingForm()
+
+        if form.validate_on_submit():
+            df.at[book_id_new, "given_rating"] = form.rating.data
+            book = df.loc[df['book_id_new'] == book_id_new]
+            return render_template('user_ratings.html', book=book)
+
+        return render_template('book_page.html', book=book, form=form)
+
+    # Have to render error page for invalid book ID
