@@ -17,7 +17,7 @@ with open(mu_path, 'rb') as f:
 M = model.input_shape[1]
 
 def predict(arr):
-    return model.predict(arr-mu)
+    return model.predict(arr-mu) + mu
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 from flask import render_template, Blueprint, redirect, url_for
 from project.core.forms import SearchForm, RatingForm
+from project.core import predict
 import pandas as pd
 import numpy as np
 import os
@@ -65,5 +66,18 @@ def book(book_id_new):
 def user_ratings():
 
     rated_books = df[df["given_rating"] != 0]
-
     return render_template('user_ratings.html', rated_books=rated_books)
+
+
+@core.route('/recommendations')
+def recommendations():
+
+    if (df['given_rating'] != 0).sum() < 10:
+        return redirect(url_for('core.user_ratings'))
+
+    preds = predict(df['given_rating'].values.reshape(1, M)).reshape(-1, 1)
+
+    df['predicted_rating'] = [np.round(pred, 2) for pred in preds]
+    print(preds.max(), preds.min(), preds.mean())
+    recc_books = df[df['given_rating'] == 0].sort_values(by='predicted_rating', ascending=False)[:10]
+    return render_template('recommendations.html', recc_books=recc_books)

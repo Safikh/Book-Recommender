@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="jumbotron" align="center">
-        {% for _, book in rated_books.iterrows() %}
-          <p>Title: {{book['title']}}. Your rating: {{book['given_rating']}}</p>
-        {% endfor %}
+      {% if rated_books|length == 0 %}
+        <h1 class="display-4">Looks like you've not rated any books. Please rate at least 10 books to get recommendations.</h1>
+      {% elif rated_books|length < 10 %}
+        <button type="button" class="btn btn-outline-primary" disabled>Get recommendations</button>
+        <small>Rate at least {{10 - rated_books|length}} more to enable this</small>
+      {% else %}
+        <a class="btn btn-outline-primary" href="{{url_for('core.recommendations')}}" role="button">Get recommendations</a>
+      {% endif %}
+      {% for _, book in rated_books.iterrows() %}
+        <p>Title: {{book['title']}}. Your rating: {{book['given_rating']}}</p>
+      {% endfor %}
     </div>
 
 {% endblock %}
