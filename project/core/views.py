@@ -46,7 +46,6 @@ def search_results(text):
 def book(book_id_new):
 
     if book_id_new < M:
-        #return render_template('book_page.html', title='Invalid Book ID!')
 
         book = df.loc[df['book_id_new'] == book_id_new]
         form = RatingForm()
@@ -54,8 +53,17 @@ def book(book_id_new):
         if form.validate_on_submit():
             df.at[book_id_new, "given_rating"] = form.rating.data
             book = df.loc[df['book_id_new'] == book_id_new]
-            return render_template('user_ratings.html', book=book)
+            return redirect(url_for('core.user_ratings'))
 
         return render_template('book_page.html', book=book, form=form)
 
     # Have to render error page for invalid book ID
+    #return render_template('book_page.html', title='Invalid Book ID!')
+
+
+@core.route('/user_ratings')
+def user_ratings():
+
+    rated_books = df[df["given_rating"] != 0]
+
+    return render_template('user_ratings.html', rated_books=rated_books)
