@@ -2,6 +2,8 @@
 {% block content %}
     <div class="jumbotron" align="center">
         <h1 class="display-4">{{title}}</h1>
+        <img src="https://www.goodreads.com/book/photo/{{goodreads_id}}.jpg" alt="">
+        <a class="btn btn-primary btn-lg" href="https://www.goodreads.com/book/show/{{goodreads_id}}" role="button">Goodreads Link</a>
     </div>
 
 {% endblock %}

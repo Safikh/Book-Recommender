@@ -9,7 +9,8 @@
 
 
         {% for _, row in results[:20].iterrows() %}
-          <a href="{{url_for('core.book', book_id_new=row['book_id_new'])}}">{{row['title']}}</a>
+
+          <a href="{{url_for('core.book', book_id_new=row['book_id_new'])}}">{{row['title']}}</a><br>
         {% endfor %}
 
 
