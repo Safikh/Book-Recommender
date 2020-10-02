@@ -77,6 +77,6 @@ def recommendations():
 
     preds = predict(df['given_rating'].values.reshape(1, M)).reshape(-1, 1)
     df['predicted_rating'] = [np.round(pred, 2) for pred in preds]
-    recc_books = df[(df['given_rating'] == 0) & (df['predicted_rating'] > 3)].sample(n=10)
+    recc_books = df[(df['given_rating'] == 0) & (df['predicted_rating'] > 3.25)].sample(n=10)
 
     return render_template('recommendations.html', recc_books=recc_books)

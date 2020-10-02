@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="jumbotron" align="center">
-        <h1>Enter text of the title to search</h1>
+        <h1 class="display-4">Enter text of the title to search</h1>
         <hr class="my-4">
         <form method="POST">
             {{form.hidden_tag()}}
             <div class="form-group">
-                {{form.text.label()}}
+                {{form.text.label(class="")}}
                 {{form.text(class="form-control")}}
             </div>
             <div class="form-group">
-                {{form.submit(class="btn btn-primary")}}
+                <!-- {{form.submit(class="btn btn-primary")}} -->
+                <button type=submit class="btn btn-info"><span class="fas fa-search" title="Submit"></span></button>
+
             </div>
           </form>
     </div>

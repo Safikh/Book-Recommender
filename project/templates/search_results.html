@@ -4,19 +4,38 @@
 <div class="jumbotron">
 
     {% if results|length > 0 %}
-      <h1>Here are the search results:</h1>
+      <h1 class="display-4">Here are the search results:</h1>
       <hr class="my-4">
+      <div class="container">
+        <div class="row m-auto">
 
+          {% for _, row in results[:20].iterrows() %}
+            <div class="card .col-sm m-1" style="width: 12rem">
+              <img src="{{row['medium_image_url']}}" height="150">
+              <div class="card-body">
+                  <h6 class="card-title">
+                    <a href="{{url_for('core.book', book_id_new=row['book_id_new'])}}">{{row['title']}}</a>
+                  </h6>
 
-        {% for _, row in results[:20].iterrows() %}
+                  <div class="card-text">
+                    {% if row['given_rating'] != 0%}
+                      Your Rating: {{row['given_rating']}}
+                    {% else %}
+                      Not rated yet
+                    {% endif %}
+                  </div>
 
-          <a href="{{url_for('core.book', book_id_new=row['book_id_new'])}}">{{row['title']}}</a><br>
-        {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+
+        </div>
+      </div>
 
 
       {% if results|length > 20 %}
         <hr class="my-4">
-        <p>There are more than 20 results for the given text. Please provide more elaborate text to search</p>
+        <p class="lead">There are more than 20 book results for the given text. Please provide more elaborate text to search</p>
       {% endif %}
     {% else %}
           <p>Uh-Oh! No results found.</p>

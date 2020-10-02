@@ -3,7 +3,8 @@
     <div class="jumbotron" align="center">
       <h3>Here are our recommendations:</h3>
       {% for _, book in recc_books.iterrows() %}
-        <p>Title: {{book['title']}}. Predicted rating: {{book['predicted_rating'][0]}}</p>
+        <p>Title: <a href="{{url_for('core.book', book_id_new=book['book_id_new'])}}">{{book['title']}}</a>
+           Predicted rating: {{book['predicted_rating'][0]}}</p>
       {% endfor %}
     </div>
 
