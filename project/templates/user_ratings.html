@@ -9,9 +9,23 @@
       {% else %}
         <a class="btn btn-outline-primary" href="{{url_for('core.recommendations')}}" role="button">Get recommendations</a>
       {% endif %}
-      {% for _, book in rated_books.iterrows() %}
-        <p>Title: {{book['title']}}. Your rating: {{book['given_rating']}}</p>
-      {% endfor %}
+      <div class="row container">
+        {% for _, book in rated_books.iterrows() %}
+        <div class="card .col-sm m-1 border border-dark" style="width: 12rem">
+          <img src="{{book['medium_image_url']}}" height="150" class="m-1 border border-info">
+          <div class="card-body">
+              <h6 class="card-title">
+                <a href="{{url_for('core.book', book_id_new=book['book_id_new'])}}">{{book['title']}}</a>
+              </h6>
+
+              <div class="card-text">
+                Your Rating: {{book['given_rating']}}
+              </div>
+
+          </div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
 
 {% endblock %}

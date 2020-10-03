@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="jumbotron">
-        <h1>Homepage</h1>
+        <h1 class="display-4">Welcome to Need-a-Read</h1>
+        <p class="lead">A Book Recommender System</p>
+        <hr class="my-4">
+        <p>You get recommendations after rating 5 books. Search for the books to rate them</p>
+        <p class="lead">
+          <a class="btn btn-primary btn-lg" href="{{url_for('core.info')}}" role="button">Learn more</a>
+        </p>
     </div>
 
 

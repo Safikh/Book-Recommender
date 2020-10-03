@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, redirect, url_for, request
-from project.core.forms import SearchForm, RatingForm
+from project.core.forms import RatingForm
 from project.core import predict
 import pandas as pd
 import numpy as np
