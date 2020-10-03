@@ -61,7 +61,8 @@ pycparser==2.20
 Pygments==2.6.1
 pyrsistent==0.16.0
 python-dateutil
-pywin32==228
+pytz
+pywin32
 pywinpty==0.5.7
 qtconsole==4.7.6
 QtPy==1.9.0
