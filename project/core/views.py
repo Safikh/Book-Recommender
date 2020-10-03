@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, redirect, url_for
+from flask import render_template, Blueprint, redirect, url_for, request
 from project.core.forms import SearchForm, RatingForm
 from project.core import predict
 import pandas as pd
@@ -24,20 +24,10 @@ def info():
     return render_template('info.html')
 
 
-@core.route('/search', methods=['GET', 'POST'])
+@core.route('/search')
 def search():
 
-    form = SearchForm()
-
-    if form.validate_on_submit():
-        return redirect(url_for('core.search_results', text=form.text.data))
-
-    return render_template('search.html', form=form)
-
-
-@core.route('/search_results/<text>')
-def search_results(text):
-
+    text = request.args['title']
 
     results = df[df['title'].str.contains(text, case=False)]
     return render_template('search_results.html', results=results)
