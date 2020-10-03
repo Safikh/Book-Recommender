@@ -7,3 +7,6 @@ Methodology: Ratings data was converted into a grid of shape NxM using Scipy spa
 
 Hyper-Parameter tuning was performed to achieve minima. Goal of the training was to achieve a reasonable minima without using too many layers or nodes, as that would result in duplicating the input layer to create the output layer. Final output recommendations are randomized so that every click would result in a new set of recommendations.Flask was used for creating web app and Heroku for deployment.
   
+
+Model Creation Code can be found in my other repository:
+  https://github.com/Safikh/Book-Recommender-Model
