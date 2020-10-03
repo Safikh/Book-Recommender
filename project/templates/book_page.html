@@ -2,7 +2,7 @@
 {% block content %}
     <div class="jumbotron" align="center">
         <h1 class="display-4">{{book['title'].values[0]}}</h1>
-        <img src="{{book['large_image_url'].values[0]}}" width="240" height="320">
+        <img src="{{book['large_image_url'].values[0]}}" width="240" height="320" class="rounded img-thumbnail">
         <p>
           Authors: {{book['authors'].values[0]}} <br>
           Published in: {{book['original_publication_year'].values[0]|int}} <br>

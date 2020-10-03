@@ -8,28 +8,26 @@ import os
 curr_dir = os.path.abspath(os.path.dirname(__file__))
 df_path = os.path.join(curr_dir, 'data/processed_books.csv')
 df = pd.read_csv(df_path)
-#print(df.head)
 M = df['book_id_new'].nunique()
-df['given_rating'] = np.zeros(M)
+df['given_rating'] = np.zeros(M) # Adding an empty column to store user ratings
 
 core = Blueprint('core', __name__)
 
 @core.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html') # Home Page template
 
 
 @core.route('/info')
 def info():
-    return render_template('info.html')
+    return render_template('info.html') # About Page template
 
 
 @core.route('/search')
 def search():
 
     text = request.args['title']
-
-    results = df[df['title'].str.contains(text, case=False)]
+    results = df[df['title'].str.contains(text, case=False)] # Search the titles for books based on text entered
     return render_template('search_results.html', results=results)
 
 
@@ -37,7 +35,6 @@ def search():
 def book(book_id_new):
 
     if book_id_new < M:
-
         book = df.loc[df['book_id_new'] == book_id_new]
         form = RatingForm()
 
@@ -48,25 +45,24 @@ def book(book_id_new):
 
         return render_template('book_page.html', book=book, form=form)
 
-    # Have to render error page for invalid book ID
-    #return render_template('book_page.html', title='Invalid Book ID!')
+    return render_template('error_pages/404.html'), 404 # When book_id exceeds limit
 
 
 @core.route('/user_ratings')
 def user_ratings():
 
-    rated_books = df[df["given_rating"] != 0]
+    rated_books = df[df["given_rating"] != 0] # Capturing books only which were rated
     return render_template('user_ratings.html', rated_books=rated_books)
 
 
 @core.route('/recommendations')
 def recommendations():
 
-    if (df['given_rating'] != 0).sum() < 5:
+    if (df['given_rating'] != 0).sum() < 5: # Need at least 5 ratings
         return redirect(url_for('core.user_ratings'))
 
     preds = predict(df['given_rating'].values.reshape(1, M)).reshape(-1, 1)
     df['predicted_rating'] = [np.round(pred, 2) for pred in preds]
-    recc_books = df[(df['given_rating'] == 0) & (df['predicted_rating'] > 3.25)].sample(n=10)
+    recc_books = df[(df['given_rating'] == 0) & (df['predicted_rating'] > 3.5)].sample(n=10) # GEtting a random sample of the books
 
     return render_template('recommendations.html', recc_books=recc_books)

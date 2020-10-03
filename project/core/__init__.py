@@ -17,7 +17,8 @@ with open(mu_path, 'rb') as f:
 M = model.input_shape[1]
 
 def predict(arr):
-    return model.predict(arr-mu) + mu
+    mask = (arr > 0) * 1.0
+    return model.predict(arr - mu*mask) + mu # mu should be subtracted only from given ratings
 
 
 if __name__ == "__main__":
